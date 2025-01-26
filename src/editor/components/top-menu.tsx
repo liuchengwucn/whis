@@ -1,7 +1,7 @@
 import { Button } from "@fluentui/react-components";
 import { OpenSubtitleButton, OpenVideoButton } from "./open-button";
 
-function NavigationBar() {
+function TopMenu() {
   return (
     <nav className="flex justify-between items-center p-4">
       <div>
@@ -19,4 +19,4 @@ function NavigationBar() {
   );
 }
 
-export default NavigationBar;
+export default TopMenu;
