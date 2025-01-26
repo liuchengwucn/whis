@@ -10,7 +10,7 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
   useEffect(() => {
     const unsubscribe = useEditorStore.subscribe(
       (state) => {
-        return state.lines[lineNumber];
+        return state.lines()[lineNumber];
       },
       (line) => {
         setLineState(line);

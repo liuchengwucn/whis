@@ -16,7 +16,7 @@ function SubtitleTable() {
   useEffect(() => {
     const unsubscribe = useEditorStore.subscribe(
       (state) => {
-        return state.lines.length;
+        return state.lines().length;
       },
       (lineCount) => {
         setLineCount(lineCount);

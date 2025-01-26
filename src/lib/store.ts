@@ -1,7 +1,7 @@
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { ParsedASSEvent } from "ass-compiler";
+import { ParsedASS, ParsedASSEvent } from "ass-compiler";
 
 interface FilePathStore {
   videoPath: string;
@@ -35,33 +35,41 @@ export function useSubtitleUrl() {
   }
 }
 
-// TODO: Add a comment field.
-export interface LineState extends ParsedASSEvent {}
-
 interface EditorState {
-  lines: LineState[];
+  parsedAss: ParsedASS | undefined;
   currentLine: number | undefined;
+  lines: () => ParsedASSEvent[];
   updateLine: (lineNumber: number, text: string) => void;
 }
 
 export const useEditorStore = create<EditorState>()(
-  subscribeWithSelector((set) => ({
-    lines: [],
+  subscribeWithSelector((set, get) => ({
+    parsedAss: undefined,
+    lines: () => {
+      return get().parsedAss?.events.dialogue ?? [];
+    },
     currentLine: undefined,
 
     updateLine: (lineIndex, text) =>
       set((state) => ({
-        lines: state.lines.map((line, index) =>
-          index === lineIndex
-            ? {
-                ...line,
-                Text: {
-                  ...line.Text,
-                  raw: text,
-                },
-              }
-            : line
-        ),
+        ...state,
+        parsedAss: {
+          ...state.parsedAss!,
+          events: {
+            ...state.parsedAss!.events,
+            dialogue: state.parsedAss!.events.dialogue.map((line, index) =>
+              index === lineIndex
+                ? {
+                    ...line,
+                    Text: {
+                      ...line.Text,
+                      raw: text,
+                    },
+                  }
+                : line
+            ),
+          },
+        },
       })),
   }))
 );

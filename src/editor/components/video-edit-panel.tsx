@@ -6,7 +6,7 @@ function VideoEditPanel() {
   const currentLine = useEditorStore((state) => state.currentLine);
   const updateLine = useEditorStore((state) => state.updateLine);
   const currentLineText =
-    useEditorStore((state) => state.lines[currentLine!]?.Text?.raw) ?? "";
+    useEditorStore((state) => state.lines()[currentLine!]?.Text?.raw) ?? "";
 
   return (
     <div className="flex gap-4 p-4">
