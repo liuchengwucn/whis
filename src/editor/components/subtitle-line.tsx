@@ -4,6 +4,7 @@ import { Button, TableCell, TableRow } from "@fluentui/react-components";
 
 function SubtitleLine({ lineNumber }: { lineNumber: number }) {
   const [lineState, setLineState] = useState<LineState>();
+  const [selected, setSelected] = useState(false);
   const updateLine = useEditorStore((state) => state.updateLine);
 
   useEffect(() => {
@@ -19,8 +20,30 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = useEditorStore.subscribe(
+      (state) => {
+        return state.currentLine;
+      },
+      (line) => {
+        if (line === lineNumber) {
+          setSelected(true);
+        } else if (line !== lineNumber) {
+          setSelected(false);
+        }
+      },
+      { fireImmediately: true }
+    );
+    return unsubscribe;
+  }, []);
+
   return (
-    <TableRow>
+    <TableRow
+      onClick={() => {
+        useEditorStore.setState({ currentLine: lineNumber });
+      }}
+      appearance={selected ? "brand" : "none"}
+    >
       <TableCell>{lineNumber + Math.random()}</TableCell>
       <TableCell>{lineState?.Start}</TableCell>
       <TableCell>{lineState?.End}</TableCell>

@@ -40,12 +40,14 @@ export interface LineState extends ParsedASSEvent {}
 
 interface EditorState {
   lines: LineState[];
+  currentLine: number | undefined;
   updateLine: (lineNumber: number, text: string) => void;
 }
 
 export const useEditorStore = create<EditorState>()(
   subscribeWithSelector((set) => ({
     lines: [],
+    currentLine: undefined,
 
     updateLine: (lineIndex, text) =>
       set((state) => ({

@@ -44,7 +44,6 @@ export function OpenSubtitleButton({
     const parsedAss = parse(text);
     // TODO: Append comments.
     useEditorStore.setState({ lines: parsedAss.events.dialogue });
-    console.log(parsedAss);
   };
 
   return (
