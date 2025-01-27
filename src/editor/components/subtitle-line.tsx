@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { LineState, useEditorStore } from "../../lib/store";
+import { useEditorStore } from "../../lib/store";
 import { Button, TableCell, TableRow } from "@fluentui/react-components";
+import { ParsedASSEvent } from "ass-compiler";
 
 function SubtitleLine({ lineNumber }: { lineNumber: number }) {
-  const [lineState, setLineState] = useState<LineState>();
+  const [lineState, setLineState] = useState<ParsedASSEvent>();
   const [selected, setSelected] = useState(false);
   const updateLine = useEditorStore((state) => state.updateLine);
 
