@@ -26,8 +26,8 @@ function SubtitleTable() {
   }, []);
 
   return (
-    <Table>
-      <TableHeader>
+    <Table noNativeElements className="overflow-auto">
+      <TableHeader className="sticky top-0 bg-white z-10">
         <TableRow>
           {columns.map((column) => (
             <TableHeaderCell key={column}>{column}</TableHeaderCell>
