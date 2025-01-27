@@ -38,6 +38,8 @@ export function useSubtitleUrl() {
 interface EditorState {
   parsedAss: ParsedASS | undefined;
   currentLine: number | undefined;
+  transcription: string;
+  translation: string;
   lines: () => ParsedASSEvent[];
   updateLine: (lineNumber: number, text: string) => void;
   nextLine: () => void;
@@ -50,6 +52,8 @@ export const useEditorStore = create<EditorState>()(
       return get().parsedAss?.events.dialogue ?? [];
     },
     currentLine: undefined,
+    transcription: "",
+    translation: "",
 
     updateLine: (lineIndex, text) =>
       set((state) => ({

@@ -16,7 +16,6 @@ const columns = [
   ["CPS", "max-w-16"],
   ["Style", "max-w-32"],
   ["Text", ""],
-  ["Action", "max-w-32"],
 ];
 
 function SubtitleTable() {
@@ -34,7 +33,7 @@ function SubtitleTable() {
   }, []);
 
   return (
-    <Table noNativeElements size="small" className="overflow-auto">
+    <Table noNativeElements size="small" className="overflow-auto px-4">
       <TableHeader className="sticky top-0 bg-white z-10">
         <TableRow>
           {columns.map((column) => (

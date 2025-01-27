@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useEditorStore } from "../../lib/store";
 import { stringifyTime } from "../../lib/utils";
-import { Button, TableCell, TableRow } from "@fluentui/react-components";
+import { TableCell, TableRow } from "@fluentui/react-components";
 import { ParsedASSEvent } from "ass-compiler";
 
 function SubtitleLine({ lineNumber }: { lineNumber: number }) {
   const [lineState, setLineState] = useState<ParsedASSEvent>();
   const [selected, setSelected] = useState(false);
-  const updateLine = useEditorStore((state) => state.updateLine);
 
   useEffect(() => {
     const unsubscribe = useEditorStore.subscribe(
@@ -42,7 +41,11 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
   return (
     <TableRow
       onClick={() => {
-        useEditorStore.setState({ currentLine: lineNumber });
+        useEditorStore.setState({
+          currentLine: lineNumber,
+          transcription: "",
+          translation: "",
+        });
       }}
       appearance={selected ? "brand" : "none"}
     >
@@ -62,18 +65,6 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
       <TableCell className="max-w-32">{lineState?.Style}</TableCell>
       <TableCell className="text-nowrap overflow-hidden overflow-ellipsis">
         {lineState?.Text.raw}
-      </TableCell>
-      <TableCell className="max-w-32">
-        {
-          <Button
-            size="small"
-            onClick={() => {
-              updateLine(lineNumber, "New Text");
-            }}
-          >
-            AI
-          </Button>
-        }
       </TableCell>
     </TableRow>
   );
