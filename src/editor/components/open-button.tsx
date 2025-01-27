@@ -37,7 +37,10 @@ async function openSubtitle() {
   const text = await readTextFile(result);
   const parsedAss = parse(text);
   useEditorStore.setState({ parsedAss });
-};
+  if (parsedAss.events.dialogue.length !== 0) {
+    useEditorStore.setState({ currentLine: 0 });
+  }
+}
 
 export function OpenSubtitleButton({
   ...props

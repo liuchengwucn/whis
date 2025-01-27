@@ -7,6 +7,7 @@ function VideoEditPanel() {
   const updateLine = useEditorStore((state) => state.updateLine);
   const currentLineText =
     useEditorStore((state) => state.lines()[currentLine!]?.Text?.raw) ?? "";
+  const nextLine = useEditorStore((state) => state.nextLine);
 
   return (
     <div className="flex gap-4 p-4">
@@ -18,6 +19,16 @@ function VideoEditPanel() {
         onChange={(e) => {
           if (currentLine === undefined) return;
           updateLine(currentLine, e.target.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (e.shiftKey) {
+              updateLine(currentLine!, currentLineText + "\\N");
+            } else {
+              nextLine();
+            }
+          }
         }}
       />
     </div>

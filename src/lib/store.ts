@@ -40,6 +40,7 @@ interface EditorState {
   currentLine: number | undefined;
   lines: () => ParsedASSEvent[];
   updateLine: (lineNumber: number, text: string) => void;
+  nextLine: () => void;
 }
 
 export const useEditorStore = create<EditorState>()(
@@ -71,5 +72,20 @@ export const useEditorStore = create<EditorState>()(
           },
         },
       })),
+
+    nextLine: () => {
+      set((state) => {
+        if (typeof state.currentLine === "undefined") return state;
+        console.log("State currentLine", state.currentLine);
+        if (state.currentLine >= state.lines().length - 1) {
+          return state;
+        }
+        const nextLine = state.currentLine + 1;
+        return {
+          ...state,
+          currentLine: nextLine,
+        };
+      });
+    },
   }))
 );
