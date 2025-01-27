@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useEditorStore } from "../../lib/store";
+import { stringifyTime } from "../../lib/utils";
 import { Button, TableCell, TableRow } from "@fluentui/react-components";
 import { ParsedASSEvent } from "ass-compiler";
 
@@ -45,12 +46,24 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
       }}
       appearance={selected ? "brand" : "none"}
     >
-      <TableCell>{lineNumber + Math.random()}</TableCell>
-      <TableCell>{lineState?.Start}</TableCell>
-      <TableCell>{lineState?.End}</TableCell>
-      <TableCell>{lineState?.Style}</TableCell>
-      <TableCell>{lineState?.Text.raw}</TableCell>
-      <TableCell>
+      <TableCell className="max-w-16">{lineNumber}</TableCell>
+      <TableCell className="max-w-32">
+        {stringifyTime(lineState?.Start)}
+      </TableCell>
+      <TableCell className="max-w-32">
+        {stringifyTime(lineState?.End)}
+      </TableCell>
+      <TableCell className="max-w-16">
+        {Math.round(
+          (lineState?.Text.raw.length ?? 0) /
+            ((lineState?.End ?? 0) - (lineState?.Start ?? 0) || 1)
+        )}
+      </TableCell>
+      <TableCell className="max-w-32">{lineState?.Style}</TableCell>
+      <TableCell className="text-nowrap overflow-hidden overflow-ellipsis">
+        {lineState?.Text.raw}
+      </TableCell>
+      <TableCell className="max-w-32">
         {
           <Button
             size="small"

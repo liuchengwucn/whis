@@ -9,7 +9,15 @@ import { useEffect, useState } from "react";
 import { useEditorStore } from "../../lib/store";
 import SubtitleLine from "./subtitle-line";
 
-const columns = ["#", "Start", "End", "Style", "Text", "Action"];
+const columns = [
+  ["#", "max-w-16"],
+  ["Start", "max-w-32"],
+  ["End", "max-w-32"],
+  ["CPS", "max-w-16"],
+  ["Style", "max-w-32"],
+  ["Text", ""],
+  ["Action", "max-w-32"],
+];
 
 function SubtitleTable() {
   const [lineCount, setLineCount] = useState(0);
@@ -26,11 +34,13 @@ function SubtitleTable() {
   }, []);
 
   return (
-    <Table noNativeElements className="overflow-auto">
+    <Table noNativeElements size="small" className="overflow-auto">
       <TableHeader className="sticky top-0 bg-white z-10">
         <TableRow>
           {columns.map((column) => (
-            <TableHeaderCell key={column}>{column}</TableHeaderCell>
+            <TableHeaderCell key={column[0]} className={column[1]}>
+              {column[0]}
+            </TableHeaderCell>
           ))}
         </TableRow>
       </TableHeader>
