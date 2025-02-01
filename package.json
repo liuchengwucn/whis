@@ -19,6 +19,7 @@
     "@tauri-apps/plugin-dialog": "^2.2.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-store": "^2.2.0",
     "ass-compiler": "^0.1.14",
     "clsx": "^2.1.1",
     "i": "^0.3.7",

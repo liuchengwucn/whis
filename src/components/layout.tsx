@@ -8,7 +8,7 @@ import {
   OnNavItemSelectData,
 } from "@fluentui/react-nav-preview";
 
-import { Tooltip } from "@fluentui/react-components";
+import { Toaster, Tooltip } from "@fluentui/react-components";
 
 import {
   DocumentBulletListMultiple20Filled,
@@ -88,6 +88,7 @@ function Layout() {
           <HamburgerWithToolTip />
         </div>
         <Outlet />
+        <Toaster />
       </div>
     </div>
   );
