@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useVideoUrl } from "../../lib/store";
+import { useVideoUrl } from "../../lib/stores";
 
 function VideoPlayer() {
   const url = useVideoUrl();

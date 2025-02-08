@@ -1,5 +1,5 @@
 import { open } from "@tauri-apps/plugin-dialog";
-import { useEditorStore, useFilePathStore } from "../../lib/store";
+import { useEditorStore, useFilePathStore } from "../../lib/stores";
 import { Button } from "@fluentui/react-components";
 import { ComponentProps } from "react";
 import { readTextFile } from "@tauri-apps/plugin-fs";

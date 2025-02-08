@@ -1,7 +1,7 @@
 import { Button } from "@fluentui/react-components";
 import { stringify } from "ass-compiler";
 import { ComponentProps } from "react";
-import { useEditorStore, useFilePathStore } from "../../lib/store";
+import { useEditorStore, useFilePathStore } from "../../lib/stores";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
 
 async function saveSubtitle() {

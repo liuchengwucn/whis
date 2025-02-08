@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useEditorStore } from "../../lib/store";
+import { useEditorStore } from "../../lib/stores";
 import { stringifyTime } from "../../lib/utils";
 import { TableCell, TableRow } from "@fluentui/react-components";
 import { ParsedASSEvent } from "ass-compiler";

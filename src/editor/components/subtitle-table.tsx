@@ -6,7 +6,7 @@ import {
   TableRow,
 } from "@fluentui/react-components";
 import { useEffect, useState } from "react";
-import { useEditorStore } from "../../lib/store";
+import { useEditorStore } from "../../lib/stores";
 import SubtitleLine from "./subtitle-line";
 
 const columns = [

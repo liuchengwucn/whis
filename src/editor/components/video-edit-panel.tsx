@@ -1,6 +1,6 @@
 import { Input, Label } from "@fluentui/react-components";
 import VideoPlayer from "./video-player";
-import { useEditorStore } from "../../lib/store";
+import { useEditorStore } from "../../lib/stores";
 import { CopyButton, MicButton, TransButton } from "./ai-buttons";
 
 function VideoEditPanel() {
