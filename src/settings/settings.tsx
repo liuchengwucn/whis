@@ -13,6 +13,8 @@ import { load } from "@tauri-apps/plugin-store";
 function Settings() {
   const [baseUrl, setBaseUrl] = useState("");
   const [apiKey, setApiKey] = useState("");
+  const [modelName, setModelName] = useState("");
+
   const { dispatchToast } = useToastController();
 
   useEffect(() => {
@@ -27,11 +29,17 @@ function Settings() {
           setApiKey(key as string);
         }
       });
+      store.get("model-name").then((name) => {
+        if (name) {
+          setModelName(name as string);
+        }
+      });
     });
 
     return () => {
       setBaseUrl("");
       setApiKey("");
+      setModelName("");
     };
   }, []);
 
@@ -40,6 +48,7 @@ function Settings() {
 
     await store.set("base-url", baseUrl);
     await store.set("api-key", apiKey);
+    await store.set("model-name", modelName);
 
     dispatchToast(
       <Toast>
@@ -55,7 +64,7 @@ function Settings() {
       <Label className="flex flex-col gap-0.5">
         Base URL
         <Input
-          placeholder=""
+          placeholder="https://api.openai.com/v1"
           value={baseUrl}
           onChange={(e) => {
             setBaseUrl(e.target.value);
@@ -65,10 +74,20 @@ function Settings() {
       <Label className="flex flex-col gap-0.5">
         API Key
         <Input
-          placeholder=""
+          placeholder="sk-1234567890abcdef"
           value={apiKey}
           onChange={(e) => {
             setApiKey(e.target.value);
+          }}
+        />
+      </Label>
+      <Label className="flex flex-col gap-0.5">
+        Model Name
+        <Input
+          placeholder="gpt-4o-mini"
+          value={modelName}
+          onChange={(e) => {
+            setModelName(e.target.value);
           }}
         />
       </Label>
