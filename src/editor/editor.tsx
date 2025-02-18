@@ -4,7 +4,7 @@ import VideoEditPanel from "./components/video-edit-panel";
 
 function Editor() {
   return (
-    <main className="flex flex-col h-screen w-full">
+    <main className="flex flex-col h-screen w-full p-4">
       <TopMenu />
       <VideoEditPanel />
       <SubtitleTable />

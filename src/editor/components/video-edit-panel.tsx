@@ -14,7 +14,7 @@ function VideoEditPanel() {
   const translation = useEditorStore((state) => state.translation);
 
   return (
-    <div className="flex gap-4 p-4">
+    <div className="flex gap-4">
       <VideoPlayer />
       <div className="flex flex-col gap-5 w-full">
         <Label className="flex flex-col gap-0.5">

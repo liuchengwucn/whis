@@ -1,99 +1,75 @@
+import { Divider, Title1 } from "@fluentui/react-components";
+import GroupHeaderCard from "./components/group-header-card";
+import SettingCard from "./components/setting-card";
 import {
-  Button,
-  Input,
-  Label,
-  Title1,
-  Toast,
-  ToastTitle,
-  useToastController,
-} from "@fluentui/react-components";
-import { useEffect, useState } from "react";
-import { load } from "@tauri-apps/plugin-store";
+  Translate24Regular,
+  LocalLanguage24Regular,
+  LinkMultiple24Regular,
+  Key24Regular,
+  PersonChat24Regular,
+} from "@fluentui/react-icons";
+import SelectSettingCard from "./components/select-setting-card";
+
+const languages = ["en-US", "zh-Hans", "zh-Hant", "ja-JP"];
+const languageDisplay = {
+  "en-US": "English",
+  "zh-Hans": "Simplified Chinese",
+  "zh-Hant": "Traditional Chinese",
+  "ja-JP": "Japanese",
+}
 
 function Settings() {
-  const [baseUrl, setBaseUrl] = useState("");
-  const [apiKey, setApiKey] = useState("");
-  const [modelName, setModelName] = useState("");
-
-  const { dispatchToast } = useToastController();
-
-  useEffect(() => {
-    load("store.json").then((store) => {
-      store.get("base-url").then((url) => {
-        if (url) {
-          setBaseUrl(url as string);
-        }
-      });
-      store.get("api-key").then((key) => {
-        if (key) {
-          setApiKey(key as string);
-        }
-      });
-      store.get("model-name").then((name) => {
-        if (name) {
-          setModelName(name as string);
-        }
-      });
-    });
-
-    return () => {
-      setBaseUrl("");
-      setApiKey("");
-      setModelName("");
-    };
-  }, []);
-
-  const saveSettings = async () => {
-    const store = await load("store.json");
-
-    await store.set("base-url", baseUrl);
-    await store.set("api-key", apiKey);
-    await store.set("model-name", modelName);
-
-    dispatchToast(
-      <Toast>
-        <ToastTitle>Settings saved successfully</ToastTitle>
-      </Toast>,
-      { intent: "success" }
-    );
-  };
-
   return (
     <div className="flex flex-col gap-4 p-4">
-      <Title1 as="h1">Settings</Title1>
-      <Label className="flex flex-col gap-0.5">
-        Base URL
-        <Input
+      <Title1 as="h1" className="px-2">
+        Settings
+      </Title1>
+      <GroupHeaderCard header="AI Settings">
+        <SettingCard
+          title="Base URL"
+          description="Compatible with the OpenAI Chat Completions API"
+          icon={<LinkMultiple24Regular />}
+          field="base-url"
           placeholder="https://api.openai.com/v1"
-          value={baseUrl}
-          onChange={(e) => {
-            setBaseUrl(e.target.value);
-          }}
         />
-      </Label>
-      <Label className="flex flex-col gap-0.5">
-        API Key
-        <Input
+        <Divider />
+        <SettingCard
+          title="API Key"
+          description="Your OpenAI API key"
+          icon={<Key24Regular />}
+          field="api-key"
           placeholder="sk-1234567890abcdef"
-          value={apiKey}
-          onChange={(e) => {
-            setApiKey(e.target.value);
-          }}
         />
-      </Label>
-      <Label className="flex flex-col gap-0.5">
-        Model Name
-        <Input
+        <Divider />
+        <SettingCard
+          title="Model Name"
+          description="The model to use for translations"
+          icon={<PersonChat24Regular />}
+          field="model-name"
           placeholder="gpt-4o-mini"
-          value={modelName}
-          onChange={(e) => {
-            setModelName(e.target.value);
-          }}
         />
-      </Label>
-      <Button appearance="primary" onClick={saveSettings}>
-        Save
-      </Button>
+      </GroupHeaderCard>
+      <GroupHeaderCard header="Language Settings">
+        <SelectSettingCard
+          title="Source Language"
+          description="The language to translate from"
+          icon={<Translate24Regular />}
+          field="source-language"
+          defaultOption="ja-JP"
+          optionDisplay={languageDisplay}
+          options={languages}
+        />
+        <Divider />
+        <SelectSettingCard
+          title="Target Language"
+          description="The language to translate to"
+          icon={<LocalLanguage24Regular />}
+          field="target-language"
+          defaultOption="zh-Hans"
+          optionDisplay={languageDisplay}
+          options={languages}
+        />
+      </GroupHeaderCard>
     </div>
   );
 }

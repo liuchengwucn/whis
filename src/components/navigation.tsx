@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Tab, TabList, ToggleButton } from "@fluentui/react-components";
+import { MouseEvent } from "react";
 
 import {
   DocumentBulletListMultiple20Filled,
@@ -29,7 +30,7 @@ function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   let navigate = useNavigate();
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     navigate(e.currentTarget.value);
   };
 

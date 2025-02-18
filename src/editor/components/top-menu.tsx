@@ -4,7 +4,7 @@ import SaveButton from "./save-button";
 
 function TopMenu() {
   return (
-    <nav className="flex justify-between items-center p-4">
+    <nav className="flex justify-between items-center">
       <div>
         <p className="font-bold text-inherit">whis</p>
       </div>

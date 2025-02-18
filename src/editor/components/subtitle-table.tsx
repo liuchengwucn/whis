@@ -33,7 +33,7 @@ function SubtitleTable() {
   }, []);
 
   return (
-    <Table noNativeElements size="small" className="overflow-auto px-4">
+    <Table noNativeElements size="small" className="overflow-auto pt-4">
       <TableHeader className="sticky top-0 bg-white z-10">
         <TableRow>
           {columns.map((column) => (
