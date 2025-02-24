@@ -10,13 +10,12 @@ import {
 } from "@fluentui/react-icons";
 import SelectSettingCard from "./components/select-setting-card";
 
-const languages = ["en-US", "zh-Hans", "zh-Hant", "ja-JP"];
+const languages = ["en", "zh", "ja"];
 const languageDisplay = {
-  "en-US": "English",
-  "zh-Hans": "Simplified Chinese",
-  "zh-Hant": "Traditional Chinese",
-  "ja-JP": "Japanese",
-}
+  en: "English",
+  zh: "Simplified Chinese",
+  ja: "Japanese",
+};
 
 function Settings() {
   return (
@@ -55,7 +54,7 @@ function Settings() {
           description="The language to translate from"
           icon={<Translate24Regular />}
           field="source-language"
-          defaultOption="ja-JP"
+          defaultOption="ja"
           optionDisplay={languageDisplay}
           options={languages}
         />
@@ -65,7 +64,7 @@ function Settings() {
           description="The language to translate to"
           icon={<LocalLanguage24Regular />}
           field="target-language"
-          defaultOption="zh-Hans"
+          defaultOption="zh"
           optionDisplay={languageDisplay}
           options={languages}
         />

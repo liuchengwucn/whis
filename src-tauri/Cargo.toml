@@ -26,4 +26,10 @@ tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-store = "2"
 rig-core = "0.8.0"
+mutter = "0.2.0"
 
+[package.metadata.patch]
+crates = ["mutter"]
+
+[patch.crates-io]
+mutter = { path="./target/patch/mutter-0.2.0" }

@@ -1,0 +1,34 @@
+diff --git a/src/lib.rs b/src/lib.rs
+index d95be5a..f5e2515 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -166,11 +166,12 @@ impl Model {
+         translate: bool,
+         word_timestamps: bool,
+         threads: Option<u16>,
++        language: Option<&str>,
+     ) -> Result<Transcript, ModelError> {
+         trace!("Decoding audio.");
+         let samples = transcode::decode(audio.as_ref().to_vec())?;
+         trace!("Transcribing audio.");
+-        self.transcribe_pcm_s16le(&samples, translate, word_timestamps, threads)
++        self.transcribe_pcm_s16le(&samples, translate, word_timestamps, threads, language)
+     }
+ 
+     /// Transcribes audio to text, given the audio is an [f32] float array of codec
+@@ -197,6 +198,7 @@ impl Model {
+         translate: bool,
+         word_timestamps: bool,
+         threads: Option<u16>,
++        language: Option<&str>,
+     ) -> Result<Transcript, ModelError> {
+         trace!(
+             "Transcribing audio: {} with translate: {translate} and timestamps: {word_timestamps}",
+@@ -215,6 +217,7 @@ impl Model {
+         params.set_print_timestamps(false);
+         params.set_token_timestamps(word_timestamps);
+         params.set_split_on_word(true);
++        params.set_language(language);
+ 
+         #[allow(clippy::cast_possible_wrap, clippy::cast_possible_truncation)]
+         let threads = threads.map_or_else(|| num_cpus::get() as i32, i32::from);

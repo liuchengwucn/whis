@@ -5,10 +5,19 @@ import {
   TranslateRegular,
 } from "@fluentui/react-icons";
 import { invoke } from "@tauri-apps/api/core";
-import { useEditorStore } from "../../lib/stores";
+import { useEditorStore, useFilePathStore } from "../../lib/stores";
 
 export function MicButton() {
-  return <Button icon={<MicRegular />} size="small" />;
+  const videoPath = useFilePathStore((state) => state.videoPath);
+
+  const transcribe = () => {
+    invoke("query_whisper", {
+      pathToMedia: videoPath,
+    }).then((message) => {
+      useEditorStore.setState({ transcription: message as string });
+    });
+  };
+  return <Button icon={<MicRegular />} size="small" onClick={transcribe} />;
 }
 export function TransButton() {
   const transcription = useEditorStore((state) => state.transcription);

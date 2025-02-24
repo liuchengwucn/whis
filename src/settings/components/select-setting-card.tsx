@@ -3,7 +3,6 @@ import {
   Body1Strong,
   Caption1,
   CardHeader,
-  Combobox,
   Dropdown,
   Option,
 } from "@fluentui/react-components";
@@ -50,9 +49,9 @@ function SelectSettingCard({
       action={
         <div>
           <Dropdown
-            value={value}
+            value={optionDisplay[value]}
             onOptionSelect={async (e, data) => {
-              const newValue = data.optionText ?? defaultOption;
+              const newValue = data.optionValue ?? defaultOption;
               setValue(newValue);
               const store = await load("store.json");
               await store.set(field, newValue);
