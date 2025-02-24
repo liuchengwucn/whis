@@ -1,7 +1,6 @@
 use mutter::Model;
 use rig::{completion::Prompt, providers::openai};
 use serde_json::Value;
-use tauri::{path::BaseDirectory, Manager};
 use tauri_plugin_store::StoreExt;
 
 #[tauri::command]
@@ -51,15 +50,12 @@ pub async fn query_whisper(
         unreachable!()
     };
 
-    let path_to_model = handle
-        .path()
-        .resolve(
-            "models/ggml-large-v3-turbo-q5_0.bin",
-            BaseDirectory::Resource,
-        )
-        .map_err(|e| e.to_string())?;
+    let model_path = store.get("whisper-model-path").unwrap_or("".into());
+    let Value::String(model_path) = model_path else {
+        unreachable!()
+    };
 
-    let model = Model::new(path_to_model.to_str().unwrap()).map_err(|e| e.to_string())?;
+    let model = Model::new(&model_path).map_err(|e| e.to_string())?;
     let media = std::fs::read(path_to_media).map_err(|e| e.to_string())?;
 
     let translate = false;

@@ -7,13 +7,15 @@ import {
   LinkMultiple24Regular,
   Key24Regular,
   PersonChat24Regular,
+  Box24Regular
 } from "@fluentui/react-icons";
 import SelectSettingCard from "./components/select-setting-card";
+import FileSettingCard from "./components/file-setting-card";
 
 const languages = ["en", "zh", "ja"];
 const languageDisplay = {
   en: "English",
-  zh: "Simplified Chinese",
+  zh: "Chinese",
   ja: "Japanese",
 };
 
@@ -46,6 +48,13 @@ function Settings() {
           icon={<PersonChat24Regular />}
           field="model-name"
           placeholder="gpt-4o-mini"
+        />
+        <Divider />
+        <FileSettingCard
+          title="Whisper Model Path"
+          description="In ggml format"
+          icon={<Box24Regular />}
+          field="whisper-model-path"
         />
       </GroupHeaderCard>
       <GroupHeaderCard header="Language Settings">
