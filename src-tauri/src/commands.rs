@@ -1,10 +1,16 @@
+use async_openai::{
+    types::{
+        ChatCompletionRequestSystemMessageArgs, ChatCompletionRequestUserMessageArgs,
+        CreateChatCompletionRequestArgs,
+    },
+    Client,
+};
 use mutter::Model;
-use rig::{completion::Prompt, providers::openai};
 use serde_json::Value;
 use tauri_plugin_store::StoreExt;
 
 #[tauri::command]
-pub async fn query_llm(handle: tauri::AppHandle, value: String) -> Result<String, String> {
+pub async fn query_llm(handle: tauri::AppHandle, prompt: String) -> Result<String, String> {
     let store = handle.store("store.json").map_err(|e| e.to_string())?;
 
     let base_url = store.get("base-url").unwrap_or("".into());
@@ -28,15 +34,41 @@ pub async fn query_llm(handle: tauri::AppHandle, value: String) -> Result<String
         model_name = "gpt-4o-mini".into();
     }
 
-    let openai_client = openai::Client::from_url(&api_key, &base_url);
-    let model = openai_client.agent(&model_name).build();
+    let config = async_openai::config::OpenAIConfig::new()
+        .with_api_key(api_key)
+        .with_api_base(base_url);
+    let client = Client::with_config(config);
 
-    let response = model
-        .prompt(value.as_str())
+    let request = CreateChatCompletionRequestArgs::default()
+        .model(&model_name)
+        .messages([
+            ChatCompletionRequestSystemMessageArgs::default()
+                .content("You are a helpful assistant.")
+                .build()
+                .map_err(|e| e.to_string())?
+                .into(),
+            ChatCompletionRequestUserMessageArgs::default()
+                .content(prompt)
+                .build()
+                .map_err(|e| e.to_string())?
+                .into(),
+        ])
+        .build()
+        .map_err(|e| e.to_string())?;
+
+    let response = client
+        .chat()
+        .create(request)
         .await
         .map_err(|e| e.to_string())?;
 
-    Ok(response)
+    let content = response
+        .choices
+        .first()
+        .and_then(|choice| choice.message.content.as_ref())
+        .ok_or("No response content")?;
+
+    Ok(content.to_string())
 }
 
 #[tauri::command]

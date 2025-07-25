@@ -149,11 +149,11 @@ export async function queryTranslation(): Promise<string> {
 
   // Get custom translation prompt or use default
   const customPrompt = await store.get("translation-prompt");
-  let systemPrompt: string;
+  let prompt: string;
 
   if (customPrompt) {
     // Replace placeholders in custom prompt
-    systemPrompt = (customPrompt as string)
+    prompt = (customPrompt as string)
       .replace(/{sourceLanguage}/g, sourceLanguageName)
       .replace(/{targetLanguage}/g, targetLanguageName)
       .replace(/{glossary}/g, glossaryText)
@@ -161,7 +161,7 @@ export async function queryTranslation(): Promise<string> {
       .replace(/{transcription}/g, transcription);
   } else {
     // Use default prompt
-    systemPrompt = defaultPrompt
+    prompt = defaultPrompt
       .replace(/{sourceLanguage}/g, sourceLanguageName)
       .replace(/{targetLanguage}/g, targetLanguageName)
       .replace(/{glossary}/g, glossaryText)
@@ -169,9 +169,11 @@ export async function queryTranslation(): Promise<string> {
       .replace(/{transcription}/g, transcription);
   }
 
+  console.log("AI query prompt:", prompt);
   const message: string = await invoke("query_llm", {
-    prompt: systemPrompt,
+    prompt,
   });
+  console.log("AI query response:", message);
 
   // Only update state if this is still the latest request
   if (
