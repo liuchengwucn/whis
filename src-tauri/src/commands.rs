@@ -1,3 +1,4 @@
+use crate::whisper;
 use async_openai::{
     types::{
         ChatCompletionRequestSystemMessageArgs, ChatCompletionRequestUserMessageArgs,
@@ -5,7 +6,6 @@ use async_openai::{
     },
     Client,
 };
-use mutter::Model;
 use serde_json::Value;
 use tauri_plugin_store::StoreExt;
 
@@ -74,34 +74,37 @@ pub async fn query_llm(handle: tauri::AppHandle, prompt: String) -> Result<Strin
 #[tauri::command]
 pub async fn query_whisper(
     handle: tauri::AppHandle,
-    path_to_media: String,
+    video_path: String,
+    start_time: f64,
+    end_time: f64,
 ) -> Result<String, String> {
     let store = handle.store("store.json").map_err(|e| e.to_string())?;
-    let language = store.get("source-language").unwrap_or("".into());
-    let Value::String(language) = language else {
-        unreachable!()
-    };
 
     let model_path = store.get("whisper-model-path").unwrap_or("".into());
     let Value::String(model_path) = model_path else {
         unreachable!()
     };
+    if model_path.is_empty() {
+        return Err("Whisper model path is not set in settings".to_string());
+    }
 
-    let model = Model::new(&model_path).map_err(|e| e.to_string())?;
-    let media = std::fs::read(path_to_media).map_err(|e| e.to_string())?;
+    let use_gpu = store.get("whisper-use-gpu").unwrap_or(Value::Bool(false));
+    let use_gpu = match use_gpu {
+        Value::String(gpu_str) => gpu_str == "true",
+        _ => false,
+    };
 
-    let translate = false;
-    let individual_word_timestamps = false;
-    let threads = None;
-    let transcription = model
-        .transcribe_audio(
-            media,
-            translate,
-            individual_word_timestamps,
-            threads,
-            Option::from(language.as_str()),
-        )
-        .unwrap();
+    let language = store.get("source-language").unwrap_or("auto".into());
+    let Value::String(language) = language else {
+        unreachable!()
+    };
 
-    Ok(transcription.as_text())
+    let whisper = whisper::get_whisper_context(&model_path, use_gpu)
+        .map_err(|e| format!("Failed to get Whisper context: {}", e))?;
+
+    let transcription =
+        whisper::transcribe_media(whisper, &video_path, start_time, end_time, &language)
+            .map_err(|e| format!("Failed to transcribe audio: {}", e))?;
+
+    Ok(transcription)
 }

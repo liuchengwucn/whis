@@ -88,7 +88,7 @@ export async function transcribeCurrentLine(): Promise<string> {
   }
 
   const message = await invoke("query_whisper", {
-    pathToMedia: videoPath,
+    videoPath,
     startTime,
     endTime,
   });
@@ -169,11 +169,9 @@ export async function queryTranslation(): Promise<string> {
       .replace(/{transcription}/g, transcription);
   }
 
-  console.log("AI query prompt:", prompt);
   const message: string = await invoke("query_llm", {
     prompt,
   });
-  console.log("AI query response:", message);
 
   // Only update state if this is still the latest request
   if (
