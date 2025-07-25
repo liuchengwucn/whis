@@ -180,7 +180,7 @@ export function AddEditDialog({
 
 interface ImportExportButtonsProps {
   onExport: () => void;
-  onImport: (file: File) => void;
+  onImport: () => void;
 }
 
 export function ImportExportButtons({

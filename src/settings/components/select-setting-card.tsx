@@ -50,7 +50,7 @@ function SelectSettingCard({
         <div>
           <Dropdown
             value={optionDisplay[value]}
-            onOptionSelect={async (e, data) => {
+            onOptionSelect={async (_e, data) => {
               const newValue = data.optionValue ?? defaultOption;
               setValue(newValue);
               const store = await load("store.json");

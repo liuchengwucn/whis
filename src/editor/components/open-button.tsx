@@ -59,6 +59,7 @@ export function OpenSubtitleButton({
         currentLine: 0,
         transcription: "",
         translation: "",
+        lineCache: {}, // Clear the line cache when loading a new subtitle file
       });
     }
 
