@@ -27,5 +27,5 @@ tauri-plugin-fs = "2"
 tauri-plugin-store = "2"
 async-openai = "0.29.0"
 whisper-rs = "0.14.3"
-ffmpeg-next = { version = "6.1.1", features = ["build"] }
+ffmpeg-next = "7.1.0"
 lazy_static = "1.4.0"
