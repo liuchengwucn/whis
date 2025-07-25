@@ -1,36 +1,73 @@
-import { Button } from "@fluentui/react-components";
+import {
+  Button,
+  Toast,
+  ToastTitle,
+  useToastController,
+} from "@fluentui/react-components";
 import {
   MicRegular,
   SendCopyRegular,
   TranslateRegular,
 } from "@fluentui/react-icons";
-import { invoke } from "@tauri-apps/api/core";
-import { useEditorStore, useFilePathStore } from "../../lib/stores";
+import {
+  transcribeCurrentLine,
+  queryTranslation,
+  copyTranslationToSubtitle,
+} from "../../lib/ai-utils";
 
 export function MicButton() {
-  const videoPath = useFilePathStore((state) => state.videoPath);
+  const { dispatchToast } = useToastController();
 
-  const transcribe = () => {
-    invoke("query_whisper", {
-      pathToMedia: videoPath,
-    }).then((message) => {
-      useEditorStore.setState({ transcription: message as string });
-    });
+  const handleTranscribe = async () => {
+    await transcribeCurrentLine();
+    dispatchToast(
+      <Toast>
+        <ToastTitle>转写成功</ToastTitle>
+      </Toast>,
+      { intent: "success" },
+    );
   };
-  return <Button icon={<MicRegular />} size="small" onClick={transcribe} />;
-}
-export function TransButton() {
-  const transcription = useEditorStore((state) => state.transcription);
 
-  const translate = () => {
-    invoke("query_llm", { value: transcription }).then((message) => {
-      useEditorStore.setState({ translation: message as string });
-    });
-  };
   return (
-    <Button icon={<TranslateRegular />} size="small" onClick={translate} />
+    <Button icon={<MicRegular />} size="small" onClick={handleTranscribe} />
+  );
+}
+
+export function TransButton() {
+  const { dispatchToast } = useToastController();
+
+  const handleTranslate = async () => {
+    await queryTranslation();
+    dispatchToast(
+      <Toast>
+        <ToastTitle>翻译成功</ToastTitle>
+      </Toast>,
+      { intent: "success" },
+    );
+  };
+
+  return (
+    <Button
+      icon={<TranslateRegular />}
+      size="small"
+      onClick={handleTranslate}
+    />
   );
 }
 export function CopyButton() {
-  return <Button icon={<SendCopyRegular />} size="small" />;
+  const { dispatchToast } = useToastController();
+
+  const handleCopy = () => {
+    copyTranslationToSubtitle();
+    dispatchToast(
+      <Toast>
+        <ToastTitle>复制成功</ToastTitle>
+      </Toast>,
+      { intent: "success" },
+    );
+  };
+
+  return (
+    <Button icon={<SendCopyRegular />} size="small" onClick={handleCopy} />
+  );
 }

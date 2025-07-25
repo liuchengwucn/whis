@@ -14,7 +14,7 @@ function TopMenu() {
         <SaveButton size="small" />
       </div>
       <div>
-        <Button appearance="primary">Open in Aegisub</Button>
+        <Button appearance="primary">在Aegisub中打开</Button>
       </div>
     </nav>
   );

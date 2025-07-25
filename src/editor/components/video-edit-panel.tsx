@@ -18,9 +18,9 @@ function VideoEditPanel() {
       <VideoPlayer />
       <div className="flex flex-col gap-5 w-full">
         <Label className="flex flex-col gap-0.5">
-          Subtitle
+          字幕
           <Input
-            placeholder="Enter your subtitle!"
+            placeholder="请输入翻译字幕"
             value={currentLineText}
             onChange={(e) => {
               if (currentLine === undefined) return;
@@ -30,7 +30,9 @@ function VideoEditPanel() {
               if (e.key === "Enter") {
                 e.preventDefault();
                 if (e.shiftKey) {
-                  updateLine(currentLine!, currentLineText + "\\N");
+                  if (currentLine !== undefined) {
+                    updateLine(currentLine, currentLineText + "\\N");
+                  }
                 } else {
                   nextLine();
                 }
@@ -41,7 +43,7 @@ function VideoEditPanel() {
         </Label>
         <div>
           <Label className="flex flex-col gap-0.5">
-            AI Transcription
+            AI转写
             <Input
               value={transcription}
               onChange={(e) => {
@@ -53,7 +55,7 @@ function VideoEditPanel() {
         </div>
         <div>
           <Label className="flex flex-col gap-0.5">
-            AI Translation
+            AI翻译
             <Input
               value={translation}
               onChange={(e) => {

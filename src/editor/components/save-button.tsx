@@ -22,15 +22,15 @@ function SaveButton({ ...props }: ComponentProps<typeof Button>) {
 
     dispatchToast(
       <Toast>
-        <ToastTitle>Subtitle Saved Successfully</ToastTitle>
+        <ToastTitle>字幕保存成功！</ToastTitle>
       </Toast>,
-      { intent: "success" }
+      { intent: "success" },
     );
   }
 
   return (
     <Button onClick={() => saveSubtitle()} {...props}>
-      Save
+      保存
     </Button>
   );
 }

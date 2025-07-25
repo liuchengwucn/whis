@@ -6,8 +6,8 @@ import "./App.css";
 import Editor from "./editor/editor";
 import Layout from "./components/layout";
 import Settings from "./settings/settings";
-import Recent from "./recent/recent";
-import Chat from "./chat/chat";
+import TranslationPromptPage from "./translation-prompt/translation-prompt";
+import GlossaryPage from "./glossary/glossary";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -17,12 +17,15 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <Route element={<Layout />}>
             <Route path="editor" element={<Editor />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="recent" element={<Recent />} />
-            <Route path="chat" element={<Chat />} />
-            <Route path="*" element={<Navigate to="/recent" />} />
+            <Route
+              path="translation-prompt"
+              element={<TranslationPromptPage />}
+            />
+            <Route path="glossary" element={<GlossaryPage />} />
+            <Route path="*" element={<Navigate to="/editor" />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </FluentProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

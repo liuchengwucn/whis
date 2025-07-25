@@ -15,23 +15,23 @@ export function OpenVideoButton({ ...props }: ComponentProps<typeof Button>) {
   async function openVideo() {
     const updateVideoPath = useFilePathStore.getState().updateVideoPath;
     const result = await open({
-      title: "Select a video file",
-      filters: [{ name: "Video Files", extensions: ["mp4"] }],
+      title: "请选择视频文件",
+      filters: [{ name: "视频文件", extensions: ["mp4"] }],
     });
     if (!result) return;
 
     updateVideoPath(result);
     dispatchToast(
       <Toast>
-        <ToastTitle>Video Opened Successfully</ToastTitle>
+        <ToastTitle>视频加载成功</ToastTitle>
       </Toast>,
-      { intent: "success" }
+      { intent: "success" },
     );
   }
 
   return (
     <Button onClick={() => openVideo()} {...props}>
-      Open Video
+      选择视频…
     </Button>
   );
 }
@@ -45,8 +45,8 @@ export function OpenSubtitleButton({
     const updateSubtitlePath = useFilePathStore.getState().updateSubtitlePath;
 
     const result = await open({
-      title: "Select a subtitle file",
-      filters: [{ name: "Subtitle Files", extensions: ["ass"] }],
+      title: "请选择字幕文件",
+      filters: [{ name: "字幕文件", extensions: ["ass"] }],
     });
     if (!result) return;
 
@@ -64,15 +64,15 @@ export function OpenSubtitleButton({
 
     dispatchToast(
       <Toast>
-        <ToastTitle>Subtitle Opened Successfully</ToastTitle>
+        <ToastTitle>成功加载字幕</ToastTitle>
       </Toast>,
-      { intent: "success" }
+      { intent: "success" },
     );
   }
 
   return (
     <Button onClick={() => openSubtitle()} {...props}>
-      Open Subtitle
+      选择字幕…
     </Button>
   );
 }

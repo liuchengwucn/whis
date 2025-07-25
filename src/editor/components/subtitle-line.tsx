@@ -16,7 +16,7 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
       (line) => {
         setLineState(line);
       },
-      { fireImmediately: true }
+      { fireImmediately: true },
     );
     return unsubscribe;
   }, []);
@@ -33,19 +33,22 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
           setSelected(false);
         }
       },
-      { fireImmediately: true }
+      { fireImmediately: true },
     );
     return unsubscribe;
   }, []);
 
   return (
     <TableRow
-      onClick={() => {
-        useEditorStore.setState({
-          currentLine: lineNumber,
-          transcription: "",
-          translation: "",
-        });
+      onClick={async () => {
+        const currentState = useEditorStore.getState();
+        if (currentState.currentLine === lineNumber) {
+          // If clicking the same line, trigger replay
+          currentState.playCurrentLine();
+        } else {
+          // If clicking a different line, set new current line
+          currentState.setCurrentLineWithCache(lineNumber);
+        }
       }}
       appearance={selected ? "brand" : "none"}
     >
@@ -59,7 +62,7 @@ function SubtitleLine({ lineNumber }: { lineNumber: number }) {
       <TableCell className="max-w-16">
         {Math.round(
           (lineState?.Text.raw.length ?? 0) /
-            ((lineState?.End ?? 0) - (lineState?.Start ?? 0) || 1)
+            ((lineState?.End ?? 0) - (lineState?.Start ?? 0) || 1),
         )}
       </TableCell>
       <TableCell className="max-w-32">{lineState?.Style}</TableCell>

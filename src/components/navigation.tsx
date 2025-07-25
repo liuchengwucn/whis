@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Tab, TabList, ToggleButton } from "@fluentui/react-components";
+import { Tab, TabList, Hamburger } from "@fluentui/react-components";
 import { MouseEvent } from "react";
 
 import {
@@ -9,21 +9,19 @@ import {
   bundleIcon,
   Settings20Filled,
   Settings20Regular,
-  History20Filled,
-  History20Regular,
-  Chat20Filled,
-  Chat20Regular,
-  CalendarAgenda20Filled,
-  CalendarAgenda20Regular,
+  Translate20Filled,
+  Translate20Regular,
+  BookGlobe20Filled,
+  BookGlobe20Regular,
 } from "@fluentui/react-icons";
 
 const SettingsIcon = bundleIcon(Settings20Filled, Settings20Regular);
 const EditorIcon = bundleIcon(
   DocumentBulletListMultiple20Filled,
-  DocumentBulletListMultiple20Regular
+  DocumentBulletListMultiple20Regular,
 );
-const ChatIcon = bundleIcon(Chat20Filled, Chat20Regular);
-const RecentIcon = bundleIcon(History20Filled, History20Regular);
+const TranslateIcon = bundleIcon(Translate20Filled, Translate20Regular);
+const GlossaryIcon = bundleIcon(BookGlobe20Filled, BookGlobe20Regular);
 
 function Navigation() {
   const location = useLocation().pathname;
@@ -35,30 +33,27 @@ function Navigation() {
   };
 
   return (
-    <nav className="px-1">
+    <nav className="p-1">
       <div className="px-1">
-        <ToggleButton
-          checked={isOpen}
-          onClick={() => setIsOpen(!isOpen)}
-          icon={
-            isOpen ? <CalendarAgenda20Filled /> : <CalendarAgenda20Regular />
-          }
-          appearance="transparent"
-        />
+        <Hamburger onClick={() => setIsOpen(!isOpen)} />
       </div>
 
       <TabList selectedValue={location} vertical>
-        <Tab icon={<RecentIcon />} value="/recent" onClick={handleClick}>
-          {isOpen ? "Recent" : ""}
-        </Tab>
         <Tab icon={<EditorIcon />} value="/editor" onClick={handleClick}>
-          {isOpen ? "Editor" : ""}
+          {isOpen ? "字幕编辑" : ""}
         </Tab>
-        <Tab icon={<ChatIcon />} value="/chat" onClick={handleClick}>
-          {isOpen ? "Chat" : ""}
+        <Tab
+          icon={<TranslateIcon />}
+          value="/translation-prompt"
+          onClick={handleClick}
+        >
+          {isOpen ? "提示词" : ""}
+        </Tab>
+        <Tab icon={<GlossaryIcon />} value="/glossary" onClick={handleClick}>
+          {isOpen ? "词汇表" : ""}
         </Tab>
         <Tab icon={<SettingsIcon />} value="/settings" onClick={handleClick}>
-          {isOpen ? "Settings" : ""}
+          {isOpen ? "偏好设定" : ""}
         </Tab>
       </TabList>
     </nav>

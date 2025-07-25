@@ -5,11 +5,11 @@ import Navigation from "./navigation";
 function Layout() {
   return (
     <div>
-      <div className="flex">
-        <div className="h-screen bg-neutral-100">
+      <div className="flex h-screen">
+        <div className="h-screen bg-neutral-100 flex-shrink-0">
           <Navigation />
         </div>
-        <div className="h-screen grow bg-neutral-50">
+        <div className="h-screen flex-1 bg-neutral-50 overflow-auto">
           <Outlet />
         </div>
         <Toaster />

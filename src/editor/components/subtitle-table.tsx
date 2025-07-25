@@ -5,32 +5,20 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@fluentui/react-components";
-import { useEffect, useState } from "react";
 import { useEditorStore } from "../../lib/stores";
 import SubtitleLine from "./subtitle-line";
 
 const columns = [
   ["#", "max-w-16"],
-  ["Start", "max-w-32"],
-  ["End", "max-w-32"],
-  ["CPS", "max-w-16"],
-  ["Style", "max-w-32"],
-  ["Text", ""],
+  ["开始时间", "max-w-32"],
+  ["结束时间", "max-w-32"],
+  ["字/秒", "max-w-16"],
+  ["样式", "max-w-32"],
+  ["文本", ""],
 ];
 
 function SubtitleTable() {
-  const [lineCount, setLineCount] = useState(0);
-  useEffect(() => {
-    const unsubscribe = useEditorStore.subscribe(
-      (state) => {
-        return state.lines().length;
-      },
-      (lineCount) => {
-        setLineCount(lineCount);
-      }
-    );
-    return unsubscribe;
-  }, []);
+  const lineCount = useEditorStore((state) => state.lines().length);
 
   return (
     <Table noNativeElements size="small" className="overflow-auto pt-4">
